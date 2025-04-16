@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  neovim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neovim-dev
+    environment:
+      - TERM=xterm-256color
+      - USE_TMUX=${USE_TMUX:-false}
+    volumes:
+      - ./workspace:/home/developer/workspace
+      - ./config/nvim:/home/developer/.config/nvim
+      - nvim-plugins:/home/developer/.local/share/nvim
+      - nvim-state:/home/developer/.local/state/nvim
+      - nvim-cache:/home/developer/.cache/nvim
+      # Opcional: montar claves SSH para acceso a repositorios privados
+      # - ${HOME}/.ssh:/home/developer/.ssh:ro
+    working_dir: /home/developer/workspace
+    stdin_open: true
+    tty: true
+
+volumes:
+  nvim-plugins:
+  nvim-state:
+  nvim-cache:
+
